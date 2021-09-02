@@ -38,13 +38,13 @@ def create_matrix(m):
 		col[counter] = i
 		val[counter] = 4
 		counter += 1
-		if i - 1 >= 0:
+		if i - 1 >= 0 and i % m != 0:
 			row[counter] = i
 			col[counter] = i - 1
 			val[counter] = -1
 			counter += 1
 		
-		if i + 1 < dim:
+		if i + 1 < dim and i % m != (m - 1):
 			row[counter] = i
 			col[counter] = i + 1
 			val[counter] = -1
