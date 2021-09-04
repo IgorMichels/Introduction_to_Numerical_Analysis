@@ -12,7 +12,7 @@ def sor(A, b, omega, x0, tol, norm = np.inf, max_iter = 10e4):
 		norm = lambda x : np.linalg.norm(x, norm)
 	
 	x = x0.copy()
-	error = norm(A @ x - b)
+	error = norm(A @ x - b.T)
 	n_iter = 0
 	while error > tol and n_iter < max_iter:
 		for i in range(A.shape[0]):
@@ -23,7 +23,7 @@ def sor(A, b, omega, x0, tol, norm = np.inf, max_iter = 10e4):
 			
 			x[i] = (1 - omega) * x[i] + omega / A[i, i] * (b[i] - mult)
 		
-		error = norm(A @ x - b)
+		error = norm(A @ x - b.T)
 		n_iter += 1
 		
 	return x, error, n_iter
