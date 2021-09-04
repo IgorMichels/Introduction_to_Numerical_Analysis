@@ -70,7 +70,7 @@ def create_b(m):
 	and x = [2, 2, ..., 2]
 	'''
 	dim = m**2
-	b = 8 * np.ones(dim)
+	b = 8 * np.ones((dim, 1))
 	for i in prange(dim):
 		if i - 1 >= 0 and i % m != 0:
 			b[i] -= 2
