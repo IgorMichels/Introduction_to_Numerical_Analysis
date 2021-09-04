@@ -1,9 +1,8 @@
 import numpy as np
-from numba import njit, prange
 from scipy.sparse import csr_matrix
-from time import time
+from numba import njit, prange
 
-def create_matrix(m):
+def create_A(m):
 	'''
 	creates matrix A in R^(m² x m²) such that
 		⌈  T  -I        			  ⌉
@@ -29,9 +28,9 @@ def create_matrix(m):
 	'''
 	
 	dim = m**2
-	row = [0 for i in range(5 * dim - 2)]
-	col = [0 for i in range(5 * dim - 2)]
-	val = [0 for i in range(5 * dim - 2)]
+	row = np.zeros(5 * dim - 2)
+	col = np.zeros(5 * dim - 2)
+	val = np.zeros(5 * dim - 2)
 	counter = 0
 	for i in range(dim):
 		row[counter] = i
@@ -63,3 +62,26 @@ def create_matrix(m):
 			counter += 1
 			
 	return csr_matrix((val, (row, col)), shape = (dim, dim))
+
+@njit(fastmath = True, cache = True, parallel = True)
+def create_b(m):
+	'''
+	creates vector b such that Ax = b, where A is like above
+	and x = [2, 2, ..., 2]
+	'''
+	dim = m**2
+	b = 8 * np.ones(dim)
+	for i in prange(dim):
+		if i - 1 >= 0 and i % m != 0:
+			b[i] -= 2
+		
+		if i + 1 < dim and i % m != (m - 1):
+			b[i] -= 2
+		
+		if i - m >= 0:
+			b[i] -= 2
+		
+		if i + m < dim:
+			b[i] -= 2
+			
+	return b
