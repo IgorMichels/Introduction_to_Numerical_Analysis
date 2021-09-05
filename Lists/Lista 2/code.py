@@ -187,28 +187,33 @@ def tests(ms, omegas, tol, mean, sd, max_iter):
 			errors[i][j + 1] = error
 			solutions[i][j + 1] = x
 			count += 1
-			
+	
 	header = ['m / ω', 'ω ótimo'] + omegas[1:]
+	print('\nIterations:')
 	print(tabulate(n_iters,
 				   headers = header,
 				   tablefmt = 'fancy_grid'))
-			
+	
+	print('\nLaTeX code:')
 	print(tabulate(n_iters,
 				   headers = header,
 				   tablefmt = 'latex'))
-			
+	
+	print('\nErrors:')
 	print(tabulate(errors,
 				   headers = header,
 				   tablefmt = 'fancy_grid'))
-			
+	
+	print('\nLaTeX code:')
 	print(tabulate(errors,
 				   headers = header,
 				   tablefmt = 'latex'))
+	print()
 
 mean = 2
 sd = 0.01
-tol = 10e-7 # 0.000001
-ms = [10, 50]
+tol = 10e-7 # 0.000 001
+ms = [10, 50, 1000, 5000]
 omegas = [omega_opt, 1, .5]
-max_iter = 10e4 # 100000
+max_iter = 10e8 # 1 000 000 000
 tests(ms, omegas, tol, mean, sd, max_iter)
