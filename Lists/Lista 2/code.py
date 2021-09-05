@@ -158,6 +158,8 @@ def expert_sor(A, b, omega, x0, tol, norm = np.inf, max_iter = 10e4):
 		
 		error = norm(A @ x - b.T)
 		n_iter += 1
+		if error % 1000000 == 0:
+			print(error)
 		
 	return x, error, n_iter
 
@@ -211,9 +213,9 @@ def tests(ms, omegas, tol, mean, sd, max_iter):
 	print()
 
 mean = 2
-sd = 0.01
+sd = 0.0001
 tol = 10e-7 # 0.000 001
 ms = [10, 50, 1000, 5000]
 omegas = [omega_opt, 1, .5]
-max_iter = 10e8 # 1 000 000 000
+max_iter = 10e7 # 100 000 000
 tests(ms, omegas, tol, mean, sd, max_iter)
