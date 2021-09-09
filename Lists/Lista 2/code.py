@@ -90,7 +90,7 @@ def create_x0(m):
 		div = 1000
 	
 	for i in range(0, dim, div):
-		x0[i] = 1.5
+		x0[i] = 1
 	
 	return x0
 
@@ -171,7 +171,7 @@ def smart_sor(A, b, omega, x0, tol, max_iter = 1e5):
 def omega_opt(m):
 	return 2 / (1 + math.sin(np.pi / (m + 1)))
 
-def tests(ms, omegas, tol, max_iter = 1e5):
+def tests(ms, omegas, tol, max_iter = 1e5, plot = True):
 	# statistics of each test
 	n_iters = []
 	errors = []
@@ -222,7 +222,7 @@ def tests(ms, omegas, tol, max_iter = 1e5):
 			t = time()
 			x, error, n_iter, ite, dif = smart_sor(A, b, omega_in_use, x0_j, tol, max_iter = max_iter)
 			tf = time()
-			print(f'SOR method with m = {m} and ω = {omega_in_use:.4f} has been complete in {tf - t:.4f} seconds\n')
+			print(f'SOR method with m = {m} and ω = {omega_in_use:.4f} has been complete in {tf - t:.4f} seconds with {n_iter} iterations.\n')
 			
 			# statistics
 			n_iters[i].append(n_iter)
@@ -231,23 +231,34 @@ def tests(ms, omegas, tol, max_iter = 1e5):
 			x0s[i].append(x0_j)
 			
 			# graph
-			plt.plot(ite, dif, label = f'ω = {omega_in_use:.4f}', color = colors[j])
-			plt.axvline(len(ite),
-			            color = colors[j],
-						linestyle = 'dashed',
-						linewidth = 2,
-						label = f'End of iterations for ω = {omega_in_use:.4f}')
+			if plot:
+				plt.plot(ite,
+						 dif,
+						 label = f'ω = {omega_in_use:.4f}',
+						 color = colors[j],
+						 linewidth = 1)
+				plt.axvline(len(ite),
+				            color = colors[j],
+							linestyle = 'dashed',
+							linewidth = 1,
+							label = f'End of iterations for ω = {omega_in_use:.4f}')
 			
 			count += 1
 		
-		plt.rcParams['figure.figsize'] = (20, 16)
-		plt.yscale('log')
-		plt.xscale('log')
-		plt.xlabel('Iteration')
-		plt.ylabel('Error')
-		plt.legend()
-		plt.savefig(f'SOR method with m = {m}.png')
-		plt.clf()
+		if plot:
+			plt.axhline(1e-6,
+						color = 'black',
+						linestyle = '-',
+						linewidth = 1)
+			plt.rcParams['figure.figsize'] = (20, 16)
+			plt.yscale('log')
+			plt.xscale('log')
+			plt.xlabel('Iteration')
+			plt.ylabel('Error')
+			plt.savefig(f'SOR method with m = {m}.png')
+			plt.legend('lower left')
+			plt.savefig(f'SOR method with m = {m} and legend.png')
+			plt.clf()
 		
 	# print statistics
 	header1 = ['m / ω', 'ω'] + omegas[1:]
@@ -276,9 +287,9 @@ def tests(ms, omegas, tol, max_iter = 1e5):
 
 # first call is only to compile functions with numba
 tol = 1e-6 # 0.000 001
-ms = [5 * i for i in range(1, 6)]
+ms = [5 * i for i in range(1, 3)]
 omegas = [10, 1, .5]
-n_iters, errors, solutions, x0s = tests(ms, omegas, tol)
+n_iters, errors, solutions, x0s = tests(ms, omegas, tol, plot = False)
 
 tol = 1e-6 # 0.000 001
 ms = [10, 50, 100, 500, 1000, 5000]
