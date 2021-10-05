@@ -21,22 +21,22 @@
 \definecolor{backcolour}{rgb}{0.95,0.95,0.92}
 
 \lstdefinestyle{mystyle}{
-    backgroundcolor=\color{backcolour},   
-    commentstyle=\color{codegreen},
-    keywordstyle=\color{magenta},
-    numberstyle=\tiny\color{codegray},
-    stringstyle=\color{codepurple},
-    basicstyle=\ttfamily\footnotesize,
-    breakatwhitespace=false,         
-    breaklines=true,                 
-    captionpos=b,                    
-    keepspaces=true,                 
-    numbers=left,                    
-    numbersep=5pt,                  
-    showspaces=false,                
-    showstringspaces=false,
-    showtabs=false,                  
-    tabsize=2
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2
 }
 
 \lstset{style=mystyle}
@@ -47,21 +47,21 @@
 \date{06/10/2021}
 
 \begin{document}
-
-\maketitle
-
-Primeiramente, note que, $x^*$ é a raiz de $f$ se, e somente se, $f(x^*) = 0$, ou seja, $x^* = \ln{\left(15 - \ln{\left(x^*\right)}\right)}$, ou seja, $x^*$ é ponto fixo da aplicação $g(x) = \ln{\left(15 - \ln{\left(x\right)}\right)}$.
-
-Pelo Teorema de Lagrange, sabemos que, para todo $x, y\in [1, 3]$, vale que
-\[|g(x) - g(y)| = |g'(c)| |x - y|, \text{ para algum } c\in (x, y).\]
-
-Notemos que
-\[g'(x) = -\dfrac{1}{x\left(15 - \ln{\left(x\right)})\right)}\]
-
-Como sabemos que $\ln{\left(x\right)}$ é uma função monótona, temos que $15 - \ln{\left(x\right)}$ também é e, consequentemente, $g(x)$ será monótona também. Dessa forma, podemos afirmar que $g'(x) \in \left[-\frac{1}{15}, \frac{1}{\ln{(27)} - 45}\right]$, ou seja, $|g'(x)| < 1$ para todo $x\in [1, 3]$, o que mostra que a função é contrativa. Para mostrar que $g\left([1, 3]\right)\subseteq [1, 3]$, podemos usar o fato de $g(x)$ ser monótona e avaliar apenas os extremos da função: $g(1) = \ln{(15)}\approx 2.708$ e $g(3) = \ln{\left(15 - \ln{(3)}\right)}\approx 2.632$, ou seja, podemos afirmar que $g\left([1, 3]\right)\subseteq [1, 3]$.
-
-Com isso, podemos afirmar que, dado qualquer $x_0\in [1, 3]$, a sequência dada por $x_{n + 1} = g(x_n)$ converge para $x^*$ tal que $x^* = g(x^*)$, isso é, para o ponto fixo de $g$, o qual é a raiz de $f$.
-
-Para encontrar $x^*$ por meio dessa recorrência, usando $x_0 = 2$ e precisão de $5$ algarismos significativos, são necessárias $4$ iterações e obtemos $x^* = 2.6411119626298705$. Já utilizando o Método de Newton-Raphson, para $x_0 = 2$ e precisão de $8$ algarismos significativos, temos $x^* = 2.641112347187374$ após $3$ iterações.
-
+	
+	\maketitle
+	
+	Primeiramente, note que, $x^*$ é a raiz de $f$ se, e somente se, $f(x^*) = 0$, ou seja, $x^* = \ln{\left(15 - \ln{\left(x^*\right)}\right)}$, ou seja, $x^*$ é ponto fixo da aplicação $g(x) = \ln{\left(15 - \ln{\left(x\right)}\right)}$.
+	
+	Pelo Teorema de Lagrange, sabemos que, para todo $x, y\in [1, 3]$, vale que
+	\[|g(x) - g(y)| = |g'(c)| |x - y|, \text{ para algum } c\in (x, y).\]
+	
+	Notemos que
+	\[g'(x) = -\dfrac{1}{x\left(15 - \ln{\left(x\right)})\right)}\]
+	
+	Como sabemos que $\ln{\left(x\right)}$ é uma função monótona, temos que $15 - \ln{\left(x\right)}$ também é e, consequentemente, $g(x)$ será monótona também. Dessa forma, podemos afirmar que $g'(x) \in \left[-\frac{1}{15}, \frac{1}{\ln{(27)} - 45}\right]$, ou seja, $|g'(x)| < 1$ para todo $x\in [1, 3]$, o que mostra que a função é contrativa. Para mostrar que $g\left([1, 3]\right)\subseteq [1, 3]$, podemos usar o fato de $g(x)$ ser monótona e avaliar apenas os extremos da função: $g(1) = \ln{(15)}\approx 2.708$ e $g(3) = \ln{\left(15 - \ln{(3)}\right)}\approx 2.632$, ou seja, podemos afirmar que $g\left([1, 3]\right)\subseteq [1, 3]$.
+	
+	Com isso, podemos afirmar que, dado qualquer $x_0\in [1, 3]$, a sequência dada por $x_{n + 1} = g(x_n)$ converge para $x^*$ tal que $x^* = g(x^*)$, isso é, para o ponto fixo de $g$, o qual é a raiz de $f$.
+	
+	Para encontrar $x^*$ por meio dessa recorrência, usando $x_0 = 2$ e precisão de $5$ algarismos significativos, são necessárias $4$ iterações e obtemos $x^* = 2.6411119626298705$. Já utilizando o Método de Newton-Raphson, para $x_0 = 2$ e precisão de $8$ algarismos significativos, temos $x^* = 2.641112347187374$ após $3$ iterações.
+	
 \end{document}
