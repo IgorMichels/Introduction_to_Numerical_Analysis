@@ -1,0 +1,180 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[portuguese]{babel}
+\usepackage{hyperref}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{dsfont}
+\usepackage{indentfirst}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{multicol}
+\usepackage{halloweenmath}
+\usepackage{verbatim}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+\geometry{top = 3cm, bottom = 2cm, left = 3cm, right = 2cm}
+
+\title{Introdução à Análise Numérica \\ 4ª Lista}
+\author{Igor Patrício Michels}
+\date{16/10/2021}
+
+\begin{document}
+
+\maketitle
+
+Primeiramente, a questão 3 se encontra no arquivo .py correspondente a ela. Vamos então provar a questão 4.
+
+\begin{comment}
+Note que, se temos um polinômio de grau máximo $n$ que passa pelos pontos $(i, -i), i\in \{1, 2, \dots, n\}$ e com termo independente igual a $(-1)^n$ deve ser o mesmo polinômio que o polinômio que passa pelos pontos $(i, -i), i\in \{1, 2, \dots, n\}$ e $(0, (-1)^n)$. Para $n$ ímpar, esse polinômio deve passar por $(0, -1)$, ou seja, ele deve ser da forma
+\[P(x) = \sum_{i = 1}^{n}\left(\prod_{j\neq i} \dfrac{x - x_j}{x_i - x_j}\right)y_i.\]
+
+Note que quando $x_i = 0$, temos $y_i = -1$, o que nos dá o termo
+\[-\dfrac{x - 1}{-1}\cdot \dfrac{x - 2}{-2}\cdot \cdots \cdot \dfrac{x - n}{-n} = \dfrac{(x - 1)(x - 2)\cdots (x - n)}{n!} = \binom{x - 1}{n},\]
+
+\noindent pois $n$ é ímpar.\footnote{Aqui temos um pequeno abuso de notação ao escrever $\binom{x - 1}{n}$, mas como o exercício fala explicitamente a respeito da imagem de naturais maiores que $n$, estou escrevendo dessa forma, onde deve se subentender que $x > n$ e $x$ natural.}
+
+Já os demais termos $(x_i, y_i)$ resultam em
+\[\dfrac{x - x_1}{x_i - x_1}\cdot \dfrac{x - x_2}{x_i - x_2}\cdot \cdots \cdot \dfrac{x - x_n}{x_i - x_n}\cdot \dfrac{x}{x_i}\cdot y_i = \dfrac{x - x_1}{x_i - x_1}\cdot \dfrac{x - x_2}{x_i - x_2}\cdot \cdots \cdot \dfrac{x - x_n}{x_i - x_n}\cdot \dfrac{x}{x_i}\cdot (-x_i) = -x\cdot \dfrac{x - x_1}{x_i - x_1}\cdot \dfrac{x - x_2}{x_i - x_2}\cdot \cdots \cdot \dfrac{x - x_n}{x_i - x_n}.\]
+
+Dessa forma, nosso problema, quando $n$ é ímpar, se resume a provar que
+\[\sum_{i = 1}^{n}\left(\prod_{j\neq i} \dfrac{x - j}{i - j}\right) = 1.\]
+
+Mas note que, se $n = 1$, então a expressão acima não está bem definida. Entretanto, note que se $n = 1$, então o polinômio deve ter, no máximo, grau $1$ e passar pelos pontos $(0, -1)$ e $(1, -1)$, ou seja, ele deve ser a reta $y = -1$. Mas $-1 = k - 1 - k = \binom{k - 1}{1} - k$, o que prova a validade desse caso. Agora, vamos focar em $n$ ímpar maior que $1$. Para tanto, vamos definir
+\[f_n(x) = \sum_{i = 1}^{n}\left(\prod_{j\neq i} \dfrac{x - j}{i - j}\right).\]
+
+É fácil ver que para todo $n$, $f_n(1) = 1$. Note que isso é verdade, pois com exceção da parcela gerada quando $i = 1$ todas as outras se anulam, enquanto que a parcela restante resulta no produto
+\[\dfrac{-1}{-1}\cdot \dfrac{-2}{-2}\cdot \cdots \cdot \dfrac{- n - 1}{- n - 1} = 1.\]
+
+Agora, vamos mostrar que $f'_n(x) = 0$ para todo $n$, o que irá provar que $f_n(x) = 1$ e que, por sua vez, finaliza a prova para o caso de $n$ ímpar. Note que
+\[f'_n(x) = \sum_{i = 1}^{n}\sum_{j\neq i} \dfrac{1}{i - j}\prod_{k\notin \{i, j\}}\dfrac{x - k}{i - k},\]
+
+\noindent dessa forma, avaliando $f'_n(x)$ para $x\in \{1, 2, \dots, n\}$, temos que, a cada parcela, teremos que $x = i\lor x = j\lor x = k$, não podendo haver interseção. Assim, se $x = k$, a parcela se anula, pois $x - k = 0$. Se $x = j$, teremos
+\[\sum_{i\neq x}\dfrac{1}{i - x}\prod_{k\notin \{i, x\}}\dfrac{x - k}{i - k}.\]
+
+\noindent Por fim, se $x = 1$, o produtório resulta em $1$, pois $x - k = i - k$, o que simplifica todas as frações, logo, o termo resultante é
+\[\sum_{j\neq x} \dfrac{1}{x - j},\]
+
+\noindent ou seja, para todo $x\in \{1, 2, \dots, n\}$, vale que
+\begin{equation*}
+    \begin{split}
+        f'_n(x) & = \sum_{j\neq x} \dfrac{1}{x - j} + \sum_{i\neq x}\dfrac{1}{i - x}\prod_{k\notin \{i, x\}}\dfrac{x - k}{i - k} \\
+        & = \sum_{i\neq x} \dfrac{1}{x - i} + \sum_{i\neq x}\dfrac{1}{i - x}\prod_{k\notin \{i, x\}}\dfrac{x - k}{i - k} \\
+        & = \sum_{i\neq x} \dfrac{1}{x - i} - \sum_{i\neq x}\dfrac{1}{x - i}\prod_{k\notin \{i, x\}}\dfrac{x - k}{i - k} \\
+        & = \sum_{i\neq x} \dfrac{1}{x - i} - \sum_{i\neq x}\prod_{k\notin \{i, x\}}\dfrac{x - k}{(i - k)(x - i)}
+    \end{split}
+\end{equation*}
+\end{comment}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{comment}
+Uma ideia para a resolução desse problema se dá pela rotação dos eixos em $45^\circ$, ou seja, a aplicação da matriz
+\[R = \begin{bmatrix}\dfrac{\sqrt{2}}{2} & \dfrac{\sqrt{2}}{2}\\ -\dfrac{\sqrt{2}}{2} & \dfrac{\sqrt{2}}{2}\end{bmatrix}\]
+
+\noindent no plano. Note que essa transformação leva os pontos do tipo $(i, -i)$ no eixo $x$:
+\[\begin{bmatrix}i & -i \end{bmatrix}\cdot R = \begin{bmatrix}i\sqrt{2} & 0 \end{bmatrix},\]
+
+\noindent e o ponto $(0, (-1)^n)$ vai para
+\[\begin{bmatrix}0 & (-1)^n \end{bmatrix}\cdot R = \begin{bmatrix}-(-1)^2\dfrac{\sqrt{2}}{2} & (-1)^2\dfrac{\sqrt{2}}{2} \end{bmatrix},\]
+
+\noindent que pertence a reta $y = -x$. Além disso, por $R$ se tratar de uma matriz de rotação, ao aplicar no polinômio nós continuamos com o mesmo traço, mas com outra parametrização, a qual acaba sendo mais fácil de encontrar, pois o grau do polinômio é o mesmo, $n$, e conhecemos suas $n$ raízes, pois os pontos $(i, -i)$ acabaram indo para o eixo $x$. Como temos o ponto $(0, (-1)^n)$ que vai para a reta $y = -x$, mas fora da origem, podemos usar esse ponto para encontrar o coeficiente de $x^n$. Isso é, pelo fato dos pontos $(i, -i)$ irem para o eixo $x$, sabemos que o polinômio rotacionado tem forma
+\[P_R(x_R) = a\prod_{i = 1}^{n} \left(x_R - i\sqrt{2}\right).\]
+
+Agora, usando o intercepto do polinômio no eixo $y$ podemos calcular o valor da constante $a$:
+\begin{equation*}
+    (-1)^n\dfrac{\sqrt{2}}{2} = a\prod_{i = 1}^{n} \left(-(-1)^n\dfrac{\sqrt{2}}{2} - i\sqrt{2}\right).
+\end{equation*}
+
+Dessa forma, para $n$ ímpar, vale que
+\begin{equation*}
+    \begin{split}
+        -\dfrac{\sqrt{2}}{2} & = a\prod_{i = 1}^{n} \left(\dfrac{\sqrt{2}}{2} - i\sqrt{2}\right) \\
+        -\dfrac{\sqrt{2}}{2} & = a\prod_{i = 1}^{n} \sqrt{2}\left(\dfrac{1}{2} - i\right) \\
+        -\dfrac{\sqrt{2}}{2} & = a\prod_{i = 1}^{n} \left(\dfrac{1 - 2i}{\sqrt{2}}\right) \\
+        -\dfrac{\sqrt{2}}{2} & = -a\prod_{i = 1}^{n} \left(\dfrac{2i - 1}{\sqrt{2}}\right) \\
+        \dfrac{\sqrt{2}}{2} & = a\left(\dfrac{\dfrac{(2n)!}{2^n\cdot n!}}{\sqrt{2^n}}\right) \\
+        \dfrac{\sqrt{2}}{2} & = a\left(\dfrac{(2n)!}{\sqrt{2^n}\cdot n!}\right) \\
+        a & = \dfrac{\sqrt{2}}{2}\left(\dfrac{\sqrt{2^n}\cdot n!}{(2n)!}\right) \\
+        a & = \dfrac{2^{\frac{n - 1}{2}}\cdot n!}{(2n)!}.
+    \end{split}
+\end{equation*}
+
+Logo, podemos ver que o polinômio transformado, para $n$ ímpar, é dado por\footnote{Note que a passagem da terceira para a quarta linha é válida pelo fato de $n$ ser ímpar, pois isso implica que teremos uma quantidade ímpar de fatores negativos no produto.}
+\[P_R(x_R) = \dfrac{2^{\frac{n - 1}{2}}\cdot n!}{(2n)!}\prod_{i = 1}^{n} \left(x_R - i\sqrt{2}\right).\]
+
+% Estamos interessados nas imagens dos naturais maiores que $n$. Isso é, queremos mostrar que $P(k) = \binom{k - 1}{n} - k$, para $k > n$, com $k$ natural. Mas isso ocorre se, e somente se, o ponto $\begin{bmatrix}k & \binom{k - 1}{n} - k\end{bmatrix}\cdot R = \begin{bmatrix}k\sqrt{2} - \binom{k - 1}{n}\frac{\sqrt{2}}{2} & \binom{k - 1}{n}\frac{\sqrt{2}}{2}\end{bmatrix}$ ser da forma $(x_R, P_R(x_R))$. Assim
+% \begin{equation*}
+%     \begin{split}
+%         P_R\left(k\sqrt{2} -  \binom{k - 1}{n}\dfrac{\sqrt{2}}{2}\right) & = \dfrac{2^{\frac{n - 1}{2}}\cdot n!}{(2n)!}\prod_{i = 1}^{n} \left(k\sqrt{2} -  \binom{k - 1}{n}\dfrac{\sqrt{2}}{2} - i\sqrt{2}\right) \\
+%         & = \dfrac{2^{\frac{n - 1}{2}}\cdot n!}{(2n)!}\prod_{i = 1}^{n} \left((k - i)\sqrt{2} -  \left(\dfrac{(k - 1)!}{n!(k - 1 - n)!}\right)\dfrac{\sqrt{2}}{2}\right) \\
+%     \end{split}
+% \end{equation*}
+
+Mas note que $\begin{bmatrix}x & P(x) \end{bmatrix}\cdot R = \begin{bmatrix}x\frac{\sqrt{2}}{2} - P(x)\frac{\sqrt{2}}{2} & x\frac{\sqrt{2}}{2} + P(x)\frac{\sqrt{2}}{2}\end{bmatrix} = \begin{bmatrix}x_R & P_R(x_R)\end{bmatrix}$. Ou seja, para cada ponto $(x_R, P_R(x_R))$ que tomamos, podemos ver que, no plano cartesiano, esse ponto corresponde ao ponto $\left(\frac{x_R + P_R(x_R)}{\sqrt{2}}, \frac{P_R(x_R) - x_R}{\sqrt{2}}\right) = (x, P(x))$.
+\end{comment}
+
+Note que, se temos um polinômio de grau máximo $n$ que passa pelos pontos $(i, -i), i\in \{1, 2, \dots, n\}$ e com termo independente igual a $(-1)^n$ deve ser o mesmo polinômio que o polinômio que passa pelos pontos $(i, -i), i\in \{1, 2, \dots, n\}$ e $(0, (-1)^n)$. Dessa forma, seja $P(x)$ esse polinômio e definimos $Q(x) = P(x) + x$.
+
+É fácil ver que o grau de $P$ e de $Q$ é o mesmo, uma vez que $P$ tem grau maior ou igual a $1$ e $P$ e $Q$ diferem apenas pela soma de um termo de grau 1. Além disso, é fácil ver que, para $i\in \{1, 2, \dots, n\}$, $Q(i) = 0$, pois $Q(i) = P(i) + i = - i + i = 0$. Ou seja, $Q$ é um polinômio de grau $n$ com as raízes sendo o conjunto $\{1, 2, \dots, n\}$. Sabendo disso, podemos escrever $Q$ como
+\[Q(x) = a\cdot \prod_{i = 1}^{n} (x - i), \text{ para algum coeficiente } a.\]
+
+Podemos descobrir $a$ utilizando o ponto $(0, (-1)^n)$ de $P$, que, por $Q$, nos leva ao mesmo ponto ($Q(0) = P(0) + 0 = P(0) = (-1)^n$). Dessa forma, temos que
+\begin{equation*}
+    \begin{split}
+        Q(0) & = a\cdot \prod_{i = 1}^{n} (0 - i) \\
+        (-1)^n & = a\cdot \prod_{i = 1}^{n} (- i) \\
+        (-1)^n & = (-1)^n\cdot a\cdot \prod_{i = 1}^{n} i \\
+        1 & = a\cdot \prod_{i = 1}^{n} i \\
+        1 & = a\cdot n! \\
+        a & = \dfrac{1}{n!}.
+    \end{split}
+\end{equation*}
+
+Logo, temos que
+\[Q(x) = \dfrac{1}{n!}\prod_{i = 1}^{n} (x - i),\]
+
+\noindent ou seja, vale que
+\[P(x) = \dfrac{1}{n!}\prod_{i = 1}^{n} (x - i) - x.\]
+
+Agora, para $k$ natural, com $k > n$, notamos que
+\begin{equation*}
+    \begin{split}
+        P(k) & = \dfrac{1}{n!}\prod_{i = 1}^{n} (k - i) - k \\
+        & = \dfrac{(k - n - 1)!}{n!\cdot (k - n - 1)!}\prod_{i = 1}^{n} (k - i) - k \\
+        & = \dfrac{(k - 1)!}{n!\cdot (k - n - 1)!} - k \\
+        & = \binom{k - 1}{n} - k,
+    \end{split}
+\end{equation*}
+
+\noindent como queríamos demonstrar.
+
+\end{document}
