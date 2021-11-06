@@ -1,6 +1,3 @@
-import numpy as np
-import matplotlib.pyplot as plt
-
 #      x'' + x * sin(t) - x' * cos(t) = 0
 # <==> x'' = x' * cos(t) - x * sin(t)
 # defina f(t, x, x') = x' * cos(t) - x * sin(t)
@@ -8,6 +5,8 @@ import matplotlib.pyplot as plt
 # Defina y = x', assim, y' = f(t, x, y), ou seja
 # x'' = x' * cos(t) - x * sin(t)
 # y' = y * cos(t) - x * sin(t)
+
+import numpy as np
 
 def f(t, x, y):
 	return y * np.cos(t) - x * np.sin(t)
@@ -35,18 +34,3 @@ def rk4(x0, y0, h, tmin = 0, tmax = 4):
 		y[i] = y[i - 1] + h/6 * (k1 + 2 * k2 + 2 * k3 + k4)
 		
 	return t, x
-	
-t, x = rk4(1, 1, 1/2)
-plt.plot(t, x, 'red')
-
-t, x = rk4(1, 1, 1/8)
-plt.plot(t, x, 'blue')
-
-t, x = rk4(1, 1, 1/16)
-plt.plot(t, x, 'green')
-
-t = np.arange(0, 4 + 1/16, 1/16)
-x = np.exp(np.sin(t))
-plt.plot(t, x, 'black')
-
-plt.show()
