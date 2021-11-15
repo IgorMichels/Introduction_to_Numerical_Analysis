@@ -64,4 +64,5 @@ def btcs(c, d, L, T, dt, dx, f, g, h):
     
     ax2 = fig.add_subplot(122)
     ax2 = plt.contourf(x1, t1, u.reshape(len(t1), len(x1)))
+    plt.colorbar(ax2)
     plt.show()
